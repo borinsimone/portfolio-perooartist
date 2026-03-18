@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+@mixin sm {
+  @media (min-width: #{$bp-sm}) {
+    @content;
+  }
+}
+@mixin md {
+  @media (min-width: #{$bp-md}) {
+    @content;
+  }
+}
+@mixin lg {
+  @media (min-width: #{$bp-lg}) {
+    @content;
+  }
+}
+@mixin xl {
+  @media (min-width: #{$bp-xl}) {
+    @content;
+  }
+}
+@mixin below-md {
+  @media (max-width: #{($bp-md - 1)}) {
+    @content;
+  }
+}
+@mixin below-lg {
+  @media (max-width: #{($bp-lg - 1)}) {
+    @content;
+  }
+}
+
+@mixin section-pad {
+  padding: $section-v $gutter;
+}
+
+@mixin card-hover {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  }
+}
+
+@mixin eyebrow {
+  font-family: $font-heading;
+  font-weight: 600;
+  font-size: clamp(0.62rem, 1.1vw, 0.75rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: $accent;
+  display: block;
+}

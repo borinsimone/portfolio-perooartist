@@ -1,0 +1,27 @@
+// ─── Palette ────────────────────────────────────────────────────────────────
+$bg: #0d0d0d;
+$bg-alt: #111111;
+$bg-card: #181818;
+$border: rgba(255, 255, 255, 0.08);
+$text: #f0ece4;
+$text-muted: rgba(240, 236, 228, 0.55);
+$accent: #ff6a00;
+$accent-dim: rgba(255, 106, 0, 0.14);
+
+// ─── Fonts ──────────────────────────────────────────────────────────────────
+$font-display: 'Playfair Display', Georgia, serif;
+$font-heading:
+  'Oswald',
+  Arial Narrow,
+  sans-serif;
+$font-body: 'Inter', system-ui, sans-serif;
+
+// ─── Breakpoints ────────────────────────────────────────────────────────────
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+
+// ─── Spacing ────────────────────────────────────────────────────────────────
+$gutter: clamp(1.25rem, 5vw, 4rem);
+$section-v: clamp(4rem, 9vw, 9rem);

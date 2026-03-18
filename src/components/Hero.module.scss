@@ -1,0 +1,210 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  background: $bg;
+
+  @include lg {
+    grid-template-columns: 55% 1fr;
+  }
+}
+
+/* ── left image column ─────────────────────────────────────────────────── */
+.imageCol {
+  position: relative;
+  min-height: 55vw;
+  overflow: hidden;
+
+  @include lg {
+    min-height: 100svh;
+  }
+}
+
+.photoFrame {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(12%) contrast(1.04);
+}
+
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba($bg, 0) 50%, $bg 100%);
+
+  @include lg {
+    background: linear-gradient(to right, rgba($bg, 0) 55%, $bg 100%);
+  }
+}
+
+/* ── right content column ──────────────────────────────────────────────── */
+.contentCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  gap: 1.6rem;
+  padding: clamp(2rem, 6vw, 5rem) $gutter clamp(3rem, 8vw, 6rem);
+
+  @include lg {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* ── logo ─────────────────────────────────────────────────────────────── */
+.logo {
+  position: absolute;
+  top: clamp(1.5rem, 3.5vw, 2.8rem);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  text-align: center;
+
+  @include lg {
+    left: auto;
+    right: $gutter;
+    transform: none;
+    text-align: right;
+  }
+}
+
+.logoName {
+  display: block;
+  font-family: $font-display;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: $text;
+}
+
+.logoRole {
+  display: block;
+  font-family: $font-heading;
+  font-size: clamp(0.58rem, 1.1vw, 0.72rem);
+  letter-spacing: 0.42em;
+  color: $accent;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+/* ── copy ─────────────────────────────────────────────────────────────── */
+.eyebrow {
+  @include eyebrow;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: clamp(1.9rem, 4.2vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.08;
+
+  em {
+    font-style: italic;
+    color: $accent;
+  }
+}
+
+.body {
+  font-size: clamp(0.88rem, 1.3vw, 0.96rem);
+  color: $text-muted;
+  max-width: 42ch;
+  line-height: 1.9;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.88rem 2.2rem;
+  border: 1px solid $accent;
+  font-family: $font-heading;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: $accent;
+  align-self: center;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+
+  &::after {
+    content: '→';
+  }
+  &:hover {
+    background: $accent;
+    color: $bg;
+  }
+
+  @include lg {
+    align-self: flex-start;
+  }
+}
+
+/* ── scroll cue ───────────────────────────────────────────────────────── */
+.scroll {
+  display: none;
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: $text-muted;
+  font-family: $font-heading;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+
+  @include lg {
+    display: flex;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 52px;
+    background: linear-gradient($text-muted, transparent);
+    animation: scrollLine 2.2s ease-in-out infinite;
+  }
+}
+
+@keyframes scrollLine {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}

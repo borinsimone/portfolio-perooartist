@@ -1,0 +1,284 @@
+@use './styles/variables' as *;
+@use './styles/mixins' as *;
+
+.label {
+  @include eyebrow;
+  margin-bottom: 0.9rem;
+}
+
+.research {
+  @include section-pad;
+  display: grid;
+  gap: 2rem;
+  justify-items: center;
+  text-align: center;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    justify-items: stretch;
+    text-align: left;
+  }
+
+  h2 {
+    font-family: $font-display;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    margin-bottom: 0.8rem;
+  }
+
+  p,
+  li {
+    color: $text-muted;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+  }
+
+  ul {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+  }
+}
+
+.chapter {
+  @include section-pad;
+  text-align: center;
+
+  @include md {
+    text-align: left;
+  }
+
+  &__head {
+    margin-bottom: 1.6rem;
+
+    span {
+      @include eyebrow;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-family: $font-display;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+  }
+}
+
+.works-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-items: center;
+
+  @include sm {
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+  }
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.work-card {
+  border: 1px solid $border;
+  background: $bg-alt;
+  padding: 0.6rem;
+  width: min(100%, 420px);
+  text-align: center;
+  @include card-hover;
+
+  @include sm {
+    width: 100%;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    margin-bottom: 0.8rem;
+  }
+
+  .borderGlow {
+    display: block;
+    width: 100%;
+  }
+
+  h4 {
+    font-family: $font-display;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+    font-size: 1.15rem;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+}
+
+.manifesto {
+  @include section-pad;
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+
+  @include md {
+    grid-template-columns: 1fr 45%;
+    justify-items: stretch;
+    text-align: left;
+  }
+
+  p {
+    font-family: $font-display;
+    text-transform: uppercase;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    line-height: 1.2;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .borderGlow {
+    display: block;
+    width: 100%;
+  }
+}
+
+.chapter3 {
+  @include section-pad;
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+
+  @include md {
+    grid-template-columns: 36% 1fr;
+    justify-items: stretch;
+    text-align: left;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .borderGlow {
+    display: block;
+    width: 100%;
+  }
+
+  h3 {
+    font-family: $font-display;
+    text-transform: uppercase;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    color: $text-muted;
+    max-width: 55ch;
+  }
+}
+
+.commissioni {
+  @include section-pad;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  text-align: center;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+
+  @include md {
+    grid-template-columns: 55% 1fr;
+    align-items: end;
+    justify-items: stretch;
+    text-align: left;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    object-fit: cover;
+  }
+
+  .borderGlow {
+    display: block;
+    width: 100%;
+  }
+
+  h3 {
+    font-family: $font-display;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  }
+
+  p {
+    color: $text-muted;
+    max-width: 42ch;
+  }
+}
+
+.contact {
+  @include section-pad;
+  text-align: center;
+
+  @include md {
+    text-align: left;
+  }
+
+  h2 {
+    font-family: $font-display;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 4.8vw, 3.4rem);
+    margin-bottom: 1.4rem;
+  }
+
+  ul {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid $border;
+    padding-bottom: 0.55rem;
+    justify-items: center;
+
+    @include md {
+      grid-template-columns: 110px 1fr;
+      justify-items: stretch;
+    }
+
+    span {
+      font-family: $font-heading;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: $accent;
+      font-size: 0.72rem;
+    }
+
+    a {
+      color: $text;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+}
