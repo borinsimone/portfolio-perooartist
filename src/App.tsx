@@ -371,7 +371,7 @@ export default function App() {
             >
               <a href='mailto:chiara.peroo@gmail.com'>chiara.peroo@gmail.com</a>
               <a
-                href='https://instagram.com'
+                href='https://www.instagram.com/_perooartist_/'
                 target='_blank'
                 rel='noreferrer'
               >

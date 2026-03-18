@@ -73,7 +73,7 @@ export default function Hero() {
           variants={fadeUp}
         >
           <a
-            href='https://instagram.com'
+            href='https://www.instagram.com/_perooartist_/'
             target='_blank'
             rel='noreferrer'
           >

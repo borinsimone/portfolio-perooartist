@@ -67,13 +67,12 @@
 /* ── logo ─────────────────────────────────────────────────────────────── */
 .logo {
   position: absolute;
-  top: clamp(1.5rem, 3.5vw, 2.8rem);
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
+  top: -50px;
+  right: 20px;
   text-align: center;
 
   @include lg {
+    top: 20px;
     left: auto;
     right: $gutter;
     transform: none;
