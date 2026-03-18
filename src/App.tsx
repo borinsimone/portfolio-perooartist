@@ -1,11 +1,14 @@
 import Hero from './components/Hero';
 import ArtistBio from './components/ArtistBio';
-import MouseTrail from './components/MouseTrail';
-import './App.scss';
+import SmokeyCursor from './components/lightswind/smokey-cursor';
 
+import './App.scss';
+import BorderGlow from './components/bits/BorderGlow';
+import { motion } from 'framer-motion';
+import { fadeIn, fadeUp, staggerContainer, viewportOnce } from './animations';
 const chapterOne = [
   {
-    title: 'OS-CURE',
+    title: 'SENTIRE',
     size: 'Dimensioni 30 x 25',
     medium: 'Tecnica mista su tela',
     year: 'Anno 2025',
@@ -21,7 +24,7 @@ const chapterOne = [
       'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80',
   },
   {
-    title: 'VIA VIVACE',
+    title: 'MOSTRARE',
     size: 'Dimensioni 40 x 40',
     medium: 'Tecnica mista su tavola',
     year: 'Anno 2025',
@@ -45,7 +48,7 @@ const chapterTwo = [
     medium: 'Acrilico figurativo su tela',
     year: 'Anno 2025',
     image:
-      'https://images.unsplash.com/photo-1577083552431-6e5fd75cb3c8?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',
   },
   {
     title: 'SOUL’S CALLING',
@@ -67,143 +70,308 @@ function WorkGrid({
   items: typeof chapterOne;
 }) {
   return (
-    <section className='chapter'>
-      <div className='chapter__head'>
-        <span>{title}</span>
-        <h3>{subtitle}</h3>
-      </div>
-      <div className='works-grid'>
+    <motion.section
+      className='chapter'
+      variants={staggerContainer}
+      initial='hidden'
+      whileInView='visible'
+      viewport={viewportOnce}
+    >
+      <motion.div
+        className='chapter__head'
+        variants={staggerContainer}
+      >
+        <motion.span variants={fadeUp}>{title}</motion.span>
+        <motion.h3 variants={fadeUp}>{subtitle}</motion.h3>
+      </motion.div>
+      <motion.div
+        className='works-grid'
+        variants={staggerContainer}
+      >
         {items.map((item) => (
-          <article
+          <motion.div
             key={item.title}
-            className='work-card'
+            variants={fadeUp}
           >
-            <img
-              src={item.image}
-              alt={item.title}
-            />
-            <h4>{item.title}</h4>
-            <p>{item.size}</p>
-            <p>{item.medium}</p>
-            <p>{item.year}</p>
-          </article>
+            <BorderGlow
+              borderRadius={0}
+              backgroundColor='#000000'
+            >
+              <article className='work-card'>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                />
+                <h4>{item.title}</h4>
+                <p>{item.size}</p>
+                <p>{item.medium}</p>
+                <p>{item.year}</p>
+              </article>
+            </BorderGlow>
+          </motion.div>
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }
 
 export default function App() {
   return (
     <>
-      <MouseTrail />
-      <Hero />
-      <ArtistBio />
-
-      <section className='research'>
-        <div className='research__left'>
-          <span className='label'>Genesi creativa e collaborazioni</span>
-          <h2>Ricerca e sviluppo</h2>
-          <p>
-            Percorsi autodidatti, materiali misti e indagine emozionale
-            costruiscono una poetica personale in continua evoluzione.
-          </p>
-        </div>
-        <div className='research__right'>
-          <h2>Esposizioni e pubblicazioni</h2>
-          <ul>
-            <li>2025 · Visioni Urbane, Firenze</li>
-            <li>2026 · Mostra collettiva “Lampi”, La Spezia</li>
-            <li>2026 · Catalogo ON ART Gallery</li>
-          </ul>
-        </div>
-      </section>
-
-      <WorkGrid
-        title='CAPITOLO I'
-        subtitle='L’opera astratta è introspezione pura'
-        items={chapterOne}
+      {/* <MouseTrail /> */}
+      <SmokeyCursor
+        simulationResolution={96}
+        dyeResolution={720}
+        densityDissipation={4.2}
+        velocityDissipation={3.1}
+        splatRadius={0.08}
+        splatForce={2800}
+        colorUpdateSpeed={3.2}
+        intensity={6}
+        autoColors={false}
+        backgroundColor={{ r: 0, g: 0, b: 0 }}
+        className='smokey-overlay'
       />
+      <div className='app-content'>
+        <Hero />
+        <ArtistBio />
 
-      <WorkGrid
-        title='CAPITOLO II'
-        subtitle='Riflessi collettivi: figure, uomo e sociale'
-        items={chapterTwo}
-      />
-
-      <section className='manifesto'>
-        <p>
-          Il mio percorso continua ogni giorno nel dialogo tra il colore e
-          l’inconscio, dove la tecnica si evolve in pari passo con la
-          consapevolezza interiore.
-        </p>
-        <img
-          src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80'
-          alt='Opera astratta rosso e verde'
-        />
-      </section>
-
-      <section className='chapter3'>
-        <img
-          src='https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=900&q=80'
-          alt='Scultura e bottiglie artistiche'
-        />
-        <div>
-          <span className='label'>Capitolo III</span>
-          <h3>Spiriti liberi</h3>
-          <p>
-            Ironia e recupero del sociale: il ready-made incontra l’immaginario
-            urbano in oggetti che raccontano identità, limiti e possibilità.
-          </p>
-        </div>
-      </section>
-
-      <section className='commissioni'>
-        <img
-          src='https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1200&q=80'
-          alt='Dettaglio commissione'
-        />
-        <div>
-          <h3>Commissioni e tempistiche</h3>
-          <p>
-            Progetti personalizzati in base alla complessità dell’opera.
-            Contattami per una proposta dedicata.
-          </p>
-        </div>
-      </section>
-
-      <footer
-        id='dove-trovarmi'
-        className='contact'
-      >
-        <h2>Dove trovarmi</h2>
-        <ul>
-          <li>
-            <span>Instagram</span>
-            <a
-              href='https://instagram.com'
-              target='_blank'
-              rel='noreferrer'
+        <motion.section
+          className='research'
+          variants={staggerContainer}
+          initial='hidden'
+          whileInView='visible'
+          viewport={viewportOnce}
+        >
+          <motion.div
+            className='research__left'
+            variants={staggerContainer}
+          >
+            <motion.span
+              className='label'
+              variants={fadeUp}
             >
-              @perooartist
-            </a>
-          </li>
-          <li>
-            <span>TikTok</span>
-            <a
-              href='https://www.tiktok.com'
-              target='_blank'
-              rel='noreferrer'
+              Genesi creativa e collaborazioni
+            </motion.span>
+            <motion.h2 variants={fadeUp}>Ricerca e sviluppo</motion.h2>
+            <motion.p variants={fadeUp}>
+              Percorsi autodidatti, materiali misti e indagine emozionale
+              costruiscono una poetica personale in continua evoluzione.
+            </motion.p>
+          </motion.div>
+          <motion.div
+            className='research__right'
+            variants={staggerContainer}
+          >
+            <motion.h2 variants={fadeUp}>Esposizioni e pubblicazioni</motion.h2>
+            <motion.ul variants={staggerContainer}>
+              <motion.li variants={fadeUp}>
+                2025 · Visioni Urbane, Firenze
+              </motion.li>
+              <motion.li variants={fadeUp}>
+                2026 · Mostra collettiva “Lampi”, La Spezia
+              </motion.li>
+              <motion.li variants={fadeUp}>
+                2026 · Catalogo ON ART Gallery
+              </motion.li>
+            </motion.ul>
+          </motion.div>
+        </motion.section>
+
+        <WorkGrid
+          title='CAPITOLO I'
+          subtitle='L’opera astratta è introspezione pura'
+          items={chapterOne}
+        />
+
+        <WorkGrid
+          title='CAPITOLO II'
+          subtitle='Riflessi collettivi: figure, uomo e sociale'
+          items={chapterTwo}
+        />
+
+        <motion.section
+          className='manifesto'
+          variants={staggerContainer}
+          initial='hidden'
+          whileInView='visible'
+          viewport={viewportOnce}
+        >
+          <motion.p variants={fadeUp}>
+            Il mio percorso continua ogni giorno nel dialogo tra il colore e
+            l’inconscio, dove la tecnica si evolve in pari passo con la
+            consapevolezza interiore.
+          </motion.p>
+          <motion.img
+            src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80'
+            alt='Opera astratta rosso e verde'
+            variants={fadeIn}
+          />
+        </motion.section>
+
+        <motion.section
+          className='chapter3'
+          variants={staggerContainer}
+          initial='hidden'
+          whileInView='visible'
+          viewport={viewportOnce}
+        >
+          <motion.img
+            src='https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=900&q=80'
+            alt='Scultura e bottiglie artistiche'
+            variants={fadeIn}
+          />
+          <motion.div variants={staggerContainer}>
+            <motion.span
+              className='label'
+              variants={fadeUp}
             >
-              @peroò_artist
-            </a>
-          </li>
-          <li>
-            <span>Email</span>
-            <a href='mailto:chiara.peroo@gmail.com'>chiara.peroo@gmail.com</a>
-          </li>
-        </ul>
-      </footer>
+              Capitolo III
+            </motion.span>
+            <motion.h3 variants={fadeUp}>Spiriti liberi</motion.h3>
+            <motion.p variants={fadeUp}>
+              Ironia e recupero del sociale: il ready-made incontra
+              l’immaginario urbano in oggetti che raccontano identità, limiti e
+              possibilità.
+            </motion.p>
+          </motion.div>
+        </motion.section>
+
+        <motion.section
+          className='commissioni'
+          variants={staggerContainer}
+          initial='hidden'
+          whileInView='visible'
+          viewport={viewportOnce}
+        >
+          <motion.div
+            className='commissioni__visual'
+            variants={fadeIn}
+          >
+            <motion.img
+              className='commissioni__mainImage'
+              src='https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1400&q=80'
+              alt='Dettaglio opera astratta per commissioni'
+              variants={fadeIn}
+            />
+            <motion.img
+              className='commissioni__badgeImage'
+              src='https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?auto=format&fit=crop&w=600&q=80'
+              alt='Dettaglio opera in sovrapposizione'
+              variants={fadeUp}
+            />
+          </motion.div>
+          <motion.div
+            className='commissioni__content'
+            variants={staggerContainer}
+          >
+            <motion.h3 variants={fadeUp}>Commissioni e tempistiche</motion.h3>
+            <motion.p variants={fadeUp}>
+              Prezzi e tempistiche variano in funzione della complessità
+              dell’opera commissionata. Non esitare a contattarmi per qualsiasi
+              informazione.
+            </motion.p>
+          </motion.div>
+        </motion.section>
+
+        <motion.footer
+          id='dove-trovarmi'
+          className='contact'
+          variants={staggerContainer}
+          initial='hidden'
+          whileInView='visible'
+          viewport={viewportOnce}
+        >
+          <motion.div
+            className='contact__intro'
+            variants={staggerContainer}
+          >
+            <motion.span
+              className='label'
+              variants={fadeUp}
+            >
+              Contatti
+            </motion.span>
+            <motion.h2 variants={fadeUp}>Parliamo del tuo progetto</motion.h2>
+            <motion.p variants={fadeUp}>
+              Raccontami idea, formato e tempistiche: preparo una proposta
+              personalizzata e rispondo in breve tempo.
+            </motion.p>
+
+            <motion.div
+              className='contact__links'
+              variants={staggerContainer}
+            >
+              <a href='mailto:chiara.peroo@gmail.com'>chiara.peroo@gmail.com</a>
+              <a
+                href='https://instagram.com'
+                target='_blank'
+                rel='noreferrer'
+              >
+                Instagram ↗
+              </a>
+              <a
+                href='https://www.tiktok.com'
+                target='_blank'
+                rel='noreferrer'
+              >
+                TikTok ↗
+              </a>
+            </motion.div>
+          </motion.div>
+          <BorderGlow borderRadius={0}>
+            <motion.form
+              className='contact__form'
+              action='mailto:chiara.peroo@gmail.com'
+              method='post'
+              encType='text/plain'
+              variants={fadeUp}
+            >
+              <label>
+                Nome
+                <input
+                  type='text'
+                  name='Nome'
+                  placeholder='Il tuo nome'
+                  required
+                />
+              </label>
+
+              <label>
+                Email
+                <input
+                  type='email'
+                  name='Email'
+                  placeholder='tuamail@esempio.com'
+                  required
+                />
+              </label>
+
+              <label>
+                Oggetto
+                <input
+                  type='text'
+                  name='Oggetto'
+                  placeholder='Richiesta commissione'
+                  required
+                />
+              </label>
+
+              <label>
+                Messaggio
+                <textarea
+                  name='Messaggio'
+                  rows={5}
+                  placeholder='Descrivi brevemente il progetto...'
+                  required
+                />
+              </label>
+
+              <button type='submit'>Invia email</button>
+            </motion.form>
+          </BorderGlow>
+        </motion.footer>
+      </div>
     </>
   );
 }

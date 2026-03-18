@@ -1,55 +1,82 @@
 import styles from './ArtistBio.module.scss';
-import BorderGlow from './bits/BorderGlow';
+import { motion } from 'framer-motion';
+import { fadeIn, fadeUp, staggerContainer, viewportOnce } from '../animations';
 export default function ArtistBio() {
   return (
-    <section
+    <motion.section
       id='bio'
       className={styles.section}
+      variants={staggerContainer}
+      initial='hidden'
+      whileInView='visible'
+      viewport={viewportOnce}
     >
-      <div>
-        <span className={styles.label}>L’inconscio sulla tela</span>
-        <h2 className={styles.heading}>CHIARA</h2>
-        <p className={styles.subtitle}>Artista del flusso</p>
-        <p className={styles.body}>
+      <motion.div variants={staggerContainer}>
+        <motion.span
+          className={styles.label}
+          variants={fadeUp}
+        >
+          L’inconscio sulla tela
+        </motion.span>
+        <motion.h2
+          className={styles.heading}
+          variants={fadeUp}
+        >
+          CHIARA
+        </motion.h2>
+        <motion.p
+          className={styles.subtitle}
+          variants={fadeUp}
+        >
+          Artista del flusso
+        </motion.p>
+        <motion.p
+          className={styles.body}
+          variants={fadeUp}
+        >
           Chiara, pittrice autodidatta nata nel 1995, vive l’arte come un
           processo immediato e attraversato da impulsi emotivi. Nel suo
           linguaggio visivo, introspezione e memoria personale si fondono in
           immagini che dialogano con chi osserva.
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
-      <div className={styles.collage}>
-        <figure className={styles.collageLarge}>
-          <BorderGlow
-            edgeSensitivity={30}
-            glowColor='40 80 80'
-            backgroundColor='#060010'
-            borderRadius={28}
-            glowRadius={40}
-            glowIntensity={1}
-            coneSpread={25}
-            animated={false}
-            colors={['#c084fc', '#f472b6', '#38bdf8']}
-          >
-            <img
-              src='https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&w=1000&q=80'
-              alt='Dettaglio pittura astratta'
-            />
-          </BorderGlow>
-        </figure>
-        <figure className={styles.collageSmall}>
-          <img
+      <motion.div
+        className={styles.collage}
+        variants={fadeIn}
+      >
+        <motion.figure
+          className={styles.collageLarge}
+          variants={fadeUp}
+        >
+          <motion.img
+            src='https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&w=1000&q=80'
+            alt='Dettaglio pittura astratta'
+            variants={fadeIn}
+          />
+        </motion.figure>
+
+        <motion.figure
+          className={styles.collageSmall}
+          variants={fadeUp}
+        >
+          <motion.img
             src='https://images.unsplash.com/photo-1459908676235-d5f02a50184b?auto=format&fit=crop&w=600&q=80'
             alt='Texture colore'
+            variants={fadeIn}
           />
-        </figure>
-        <figure className={styles.collageSmall}>
-          <img
+        </motion.figure>
+        <motion.figure
+          className={styles.collageSmall}
+          variants={fadeUp}
+        >
+          <motion.img
             src='https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80'
             alt='Pennellate su tela'
+            variants={fadeIn}
           />
-        </figure>
-      </div>
-    </section>
+        </motion.figure>
+      </motion.div>
+    </motion.section>
   );
 }
