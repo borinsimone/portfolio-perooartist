@@ -56,9 +56,10 @@ export default function Hero() {
           className={styles.body}
           variants={fadeUp}
         >
-          In Peroò convivono due anime: il figurativo che osserva il mondo
-          sociale e l’astratto che racconta il sentire interiore. La tela
-          diventa uno spazio di trasformazione, memoria e presenza.
+          In 'Peroò' risiede una duplice anima: la radice del cognome, riflesso
+          di una realtà sociale tradotta in figurativo, si intreccia al
+          manifesto 'Però è Arte', estensione di un'introspezione astratta dove
+          il sentire profondo si fa materia.
         </motion.p>
         <motion.a
           className={styles.cta}
@@ -80,7 +81,7 @@ export default function Hero() {
             Instagram
           </a>
           <a
-            href='https://www.tiktok.com'
+            href='https://www.tiktok.com/@chiaraperoo?lang=en'
             target='_blank'
             rel='noreferrer'
           >

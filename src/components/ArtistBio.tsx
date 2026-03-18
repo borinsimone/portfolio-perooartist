@@ -34,10 +34,12 @@ export default function ArtistBio() {
           className={styles.body}
           variants={fadeUp}
         >
-          Chiara, pittrice autodidatta nata nel 1995, vive l’arte come un
-          processo immediato e attraversato da impulsi emotivi. Nel suo
-          linguaggio visivo, introspezione e memoria personale si fondono in
-          immagini che dialogano con chi osserva.
+          Chiara, pittrice autodidatta nata nel 1998, vive l'arte come un
+          processo meditativo e introspettivo. Le sue opere, che spaziano
+          dall'astratto al figurativo, nascono da un impulso inconscio che viene
+          "decodificato" solo a lavoro terminato. Al centro della sua ricerca ci
+          sono l'evoluzione umana e il legame tra mondo interiore e società,
+          trasformando emozioni e ricordi personali in un linguaggio universale.
         </motion.p>
       </motion.div>
 

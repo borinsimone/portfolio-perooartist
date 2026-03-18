@@ -296,10 +296,20 @@ export default function App() {
               Capitolo III
             </motion.span>
             <motion.h3 variants={fadeUp}>Spiriti liberi</motion.h3>
+            <motion.span
+              className='label'
+              variants={fadeUp}
+            >
+              L'ironia e il recupero del sociale
+            </motion.span>
             <motion.p variants={fadeUp}>
-              Ironia e recupero del sociale: il ready-made incontra
-              l’immaginario urbano in oggetti che raccontano identità, limiti e
-              possibilità.
+              In questa serie, la mia ricerca esce dai confini della tela per
+              abbracciare la tridimensionalità del vetro di recupero. La
+              bottiglia vuota diventa il simbolo di una società che consuma, ma
+              che io scelgo di 'riempire' nuovamente attraverso l'introspezione.
+              Mentre la grafica astratta rappresenta la libertà e l'etereo, le
+              frasi ironiche diventano il ponte con il sociale: un modo per
+              sorridere delle tappe e dei paradossi che ci accomunano tutti.
             </motion.p>
           </motion.div>
         </motion.section>
@@ -378,7 +388,7 @@ export default function App() {
                 Instagram ↗
               </a>
               <a
-                href='https://www.tiktok.com'
+                href='https://www.tiktok.com/@chiaraperoo?lang=en'
                 target='_blank'
                 rel='noreferrer'
               >
