@@ -330,7 +330,7 @@
       color: $accent;
     }
 
-    input,
+    input:not([type='checkbox']),
     textarea {
       width: 100%;
       background: rgba(255, 255, 255, 0.02);
@@ -386,6 +386,39 @@
         cursor: not-allowed;
       }
     }
+  }
+
+  &__consent {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    align-items: start;
+    gap: 0.65rem;
+    font-family: $font-body;
+    letter-spacing: normal;
+    text-transform: none;
+    font-size: 0.86rem;
+    color: $text-muted;
+
+    input[type='checkbox'] {
+      margin-top: 0.15rem;
+      width: 16px;
+      height: 16px;
+      accent-color: $accent;
+    }
+
+    a {
+      color: $accent;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+
+  &__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
 
   &__status {

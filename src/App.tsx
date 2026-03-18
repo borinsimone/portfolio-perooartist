@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import Hero from './components/Hero';
 import ArtistBio from './components/ArtistBio';
 import SmokeyCursor from './components/lightswind/smokey-cursor';
@@ -123,6 +123,8 @@ export default function App() {
     'idle' | 'success' | 'error'
   >('idle');
   const [submitMessage, setSubmitMessage] = useState('');
+  const formStartedAtRef = useRef(Date.now());
+  const privacyPolicyUrl = `${import.meta.env.BASE_URL}privacy-policy.html`;
 
   const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -131,9 +133,18 @@ export default function App() {
       return;
     }
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const normalizeEnvValue = (value: string | undefined) =>
+      value?.trim().replace(/^['\"]|['\"]$/g, '');
+
+    const serviceId = normalizeEnvValue(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    );
+    const templateId = normalizeEnvValue(
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+    );
+    const publicKey = normalizeEnvValue(
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    );
 
     if (!serviceId || !templateId || !publicKey) {
       setSubmitStatus('error');
@@ -145,6 +156,30 @@ export default function App() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+
+    const honeypot = formData.get('website')?.toString().trim() ?? '';
+    const isPrivacyAccepted = formData.get('privacyAccepted') === 'on';
+    const filledTooFast = Date.now() - formStartedAtRef.current < 3000;
+
+    if (honeypot) {
+      setSubmitStatus('success');
+      setSubmitMessage('Messaggio inviato con successo. Ti risponderò presto.');
+      return;
+    }
+
+    if (filledTooFast) {
+      setSubmitStatus('error');
+      setSubmitMessage(
+        'Invio bloccato per protezione antispam. Attendi qualche secondo e riprova.',
+      );
+      return;
+    }
+
+    if (!isPrivacyAccepted) {
+      setSubmitStatus('error');
+      setSubmitMessage('Per continuare devi accettare la Privacy Policy.');
+      return;
+    }
 
     const name = formData.get('name')?.toString().trim() ?? '';
     const email = formData.get('email')?.toString().trim() ?? '';
@@ -161,11 +196,16 @@ export default function App() {
         templateId,
         {
           name,
+          Nome: name,
           from_name: name,
           email,
+          Email: email,
           reply_to: email,
           subject,
+          Oggetto: subject,
           message,
+          Messaggio: message,
+          privacy_accepted: 'true',
         },
         { publicKey },
       );
@@ -173,10 +213,31 @@ export default function App() {
       setSubmitStatus('success');
       setSubmitMessage('Messaggio inviato con successo. Ti risponderò presto.');
       form.reset();
-    } catch {
+      formStartedAtRef.current = Date.now();
+    } catch (error) {
+      const details =
+        error && typeof error === 'object'
+          ? [
+              'status' in error && error.status
+                ? String(error.status)
+                : undefined,
+              'text' in error && error.text ? String(error.text) : undefined,
+            ]
+              .filter(Boolean)
+              .join(' · ')
+          : '';
+
+      console.error('EmailJS send failed', {
+        error,
+        serviceId,
+        templateId,
+      });
+
       setSubmitStatus('error');
       setSubmitMessage(
-        'Invio non riuscito. Riprova tra qualche minuto oppure scrivimi via email diretta.',
+        details
+          ? `Invio non riuscito (${details}). Verifica template, service e domini autorizzati su EmailJS.`
+          : 'Invio non riuscito. Riprova tra qualche minuto oppure scrivimi via email diretta.',
       );
     } finally {
       setIsSending(false);
@@ -440,6 +501,39 @@ export default function App() {
                   placeholder='Descrivi brevemente il progetto...'
                   required
                 />
+              </label>
+
+              <div
+                className='contact__hp'
+                aria-hidden='true'
+              >
+                <label htmlFor='website'>Lascia vuoto questo campo</label>
+                <input
+                  id='website'
+                  type='text'
+                  name='website'
+                  tabIndex={-1}
+                  autoComplete='off'
+                />
+              </div>
+
+              <label className='contact__consent'>
+                <input
+                  type='checkbox'
+                  name='privacyAccepted'
+                  required
+                />
+                <span>
+                  Ho letto e accetto la{' '}
+                  <a
+                    href={privacyPolicyUrl}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    Privacy Policy
+                  </a>
+                  .
+                </span>
               </label>
 
               <button
