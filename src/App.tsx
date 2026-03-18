@@ -1,6 +1,8 @@
+import { useState, type FormEvent } from 'react';
 import Hero from './components/Hero';
 import ArtistBio from './components/ArtistBio';
 import SmokeyCursor from './components/lightswind/smokey-cursor';
+import emailjs from '@emailjs/browser';
 
 import './App.scss';
 import BorderGlow from './components/bits/BorderGlow';
@@ -116,6 +118,71 @@ function WorkGrid({
 }
 
 export default function App() {
+  const [isSending, setIsSending] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isSending) {
+      return;
+    }
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setSubmitStatus('error');
+      setSubmitMessage(
+        'Configurazione EmailJS mancante. Aggiungi le variabili VITE_EMAILJS_* nel file .env.',
+      );
+      return;
+    }
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const name = formData.get('name')?.toString().trim() ?? '';
+    const email = formData.get('email')?.toString().trim() ?? '';
+    const subject = formData.get('subject')?.toString().trim() ?? '';
+    const message = formData.get('message')?.toString().trim() ?? '';
+
+    setIsSending(true);
+    setSubmitStatus('idle');
+    setSubmitMessage('');
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name,
+          from_name: name,
+          email,
+          reply_to: email,
+          subject,
+          message,
+        },
+        { publicKey },
+      );
+
+      setSubmitStatus('success');
+      setSubmitMessage('Messaggio inviato con successo. Ti risponderò presto.');
+      form.reset();
+    } catch {
+      setSubmitStatus('error');
+      setSubmitMessage(
+        'Invio non riuscito. Riprova tra qualche minuto oppure scrivimi via email diretta.',
+      );
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <>
       {/* <MouseTrail /> */}
@@ -322,16 +389,14 @@ export default function App() {
           <BorderGlow borderRadius={0}>
             <motion.form
               className='contact__form'
-              action='mailto:chiara.peroo@gmail.com'
-              method='post'
-              encType='text/plain'
+              onSubmit={handleContactSubmit}
               variants={fadeUp}
             >
               <label>
                 Nome
                 <input
                   type='text'
-                  name='Nome'
+                  name='name'
                   placeholder='Il tuo nome'
                   required
                 />
@@ -341,7 +406,7 @@ export default function App() {
                 Email
                 <input
                   type='email'
-                  name='Email'
+                  name='email'
                   placeholder='tuamail@esempio.com'
                   required
                 />
@@ -351,7 +416,7 @@ export default function App() {
                 Oggetto
                 <input
                   type='text'
-                  name='Oggetto'
+                  name='subject'
                   placeholder='Richiesta commissione'
                   required
                 />
@@ -360,14 +425,27 @@ export default function App() {
               <label>
                 Messaggio
                 <textarea
-                  name='Messaggio'
+                  name='message'
                   rows={5}
                   placeholder='Descrivi brevemente il progetto...'
                   required
                 />
               </label>
 
-              <button type='submit'>Invia email</button>
+              <button
+                type='submit'
+                disabled={isSending}
+              >
+                {isSending ? 'Invio in corso...' : 'Invia email'}
+              </button>
+
+              {submitStatus !== 'idle' && (
+                <p
+                  className={`contact__status contact__status--${submitStatus}`}
+                >
+                  {submitMessage}
+                </p>
+              )}
             </motion.form>
           </BorderGlow>
         </motion.footer>
