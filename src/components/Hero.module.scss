@@ -152,7 +152,11 @@
     align-self: flex-start;
   }
 }
-
+.cta_contact {
+  &::after {
+    content: '';
+  }
+}
 .socials {
   display: flex;
   flex-wrap: wrap;

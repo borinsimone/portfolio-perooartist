@@ -1,78 +1,89 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Hero from './components/Hero';
 import ArtistBio from './components/ArtistBio';
 import SmokeyCursor from './components/lightswind/smokey-cursor';
 import emailjs from '@emailjs/browser';
-
 import './App.scss';
 import BorderGlow from './components/bits/BorderGlow';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { fadeIn, fadeUp, staggerContainer, viewportOnce } from './animations';
+import sentireImg from './assets/sentire.jpeg';
+import etereImg from './assets/etere-paint.jpeg';
+import confidenceImg from './assets/confidence.jpeg';
+import powerBullImg from './assets/power-bull.jpeg';
+import soulCallingImg from './assets/soul-calling.jpeg';
+import mostrareImg from './assets/mostrare.jpeg';
+import percorsoImg from './assets/percorso.jpeg';
+import spritoImg from './assets/spirito-libero.jpeg';
+import commissioniImg from './assets/commissioni.jpeg';
+import pesceImg from './assets/pesce.jpeg';
 const chapterOne = [
   {
     title: 'SENTIRE',
-    size: 'Dimensioni 30 x 25',
+    size: 'Dimensioni 50 x 70',
     medium: 'Tecnica mista su tela',
     year: 'Anno 2025',
-    image:
-      'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=900&q=80',
+    image: sentireImg,
   },
   {
     title: 'ETERE',
-    size: 'Dimensioni 40 x 30',
+    size: 'Dimensioni 40 x 50',
     medium: 'Acrilico e texture materiche',
     year: 'Anno 2026',
-    image:
-      'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80',
+    image: etereImg,
   },
   {
     title: 'MOSTRARE',
     size: 'Dimensioni 40 x 40',
     medium: 'Tecnica mista su tavola',
     year: 'Anno 2025',
-    image:
-      'https://images.unsplash.com/photo-1579965342575-16428a7c8881?auto=format&fit=crop&w=900&q=80',
+    image: mostrareImg,
   },
 ];
 
 const chapterTwo = [
   {
     title: 'CONFIDENCE',
-    size: 'Dimensioni 56 x 72',
+    size: 'Dimensioni 58 x 77,5',
     medium: 'Acrilico e linee su tela',
     year: 'Anno 2025',
-    image:
-      'https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80',
+    image: confidenceImg,
   },
   {
     title: 'POWER BULL',
-    size: 'Dimensioni 45 x 50',
+    size: 'Dimensioni 50 x 50',
     medium: 'Acrilico figurativo su tela',
     year: 'Anno 2025',
-    image:
-      'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',
+    image: powerBullImg,
   },
   {
     title: 'SOUL’S CALLING',
-    size: 'Dimensioni 45 x 60',
+    size: 'Dimensioni 40 x 50',
     medium: 'Bianco e nero con dettagli oro',
     year: 'Anno 2026',
-    image:
-      'https://images.unsplash.com/photo-1578301978018-3005759f48f7?auto=format&fit=crop&w=900&q=80',
+    image: soulCallingImg,
   },
 ];
 
 function WorkGrid({
+  id,
   title,
   subtitle,
   items,
+  startIndex,
+  onOpen,
 }: {
+  id?: string;
   title: string;
   subtitle: string;
   items: typeof chapterOne;
+  startIndex: number;
+  onOpen: (index: number) => void;
 }) {
   return (
     <motion.section
+      id={id}
       className='chapter'
       variants={staggerContainer}
       initial='hidden'
@@ -90,7 +101,7 @@ function WorkGrid({
         className='works-grid'
         variants={staggerContainer}
       >
-        {items.map((item) => (
+        {items.map((item, index) => (
           <motion.div
             key={item.title}
             variants={fadeUp}
@@ -99,16 +110,23 @@ function WorkGrid({
               borderRadius={0}
               backgroundColor='#000000'
             >
-              <article className='work-card'>
-                <img
-                  src={item.image}
-                  alt={item.title}
-                />
-                <h4>{item.title}</h4>
-                <p>{item.size}</p>
-                <p>{item.medium}</p>
-                <p>{item.year}</p>
-              </article>
+              <button
+                className='work-card__trigger'
+                type='button'
+                onClick={() => onOpen(startIndex + index)}
+                aria-label={`Apri ${item.title} a schermo intero`}
+              >
+                <article className='work-card'>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                  />
+                  <h4>{item.title}</h4>
+                  <p>{item.size}</p>
+                  <p>{item.medium}</p>
+                  <p>{item.year}</p>
+                </article>
+              </button>
             </BorderGlow>
           </motion.div>
         ))}
@@ -118,13 +136,79 @@ function WorkGrid({
 }
 
 export default function App() {
+  const allWorks = [...chapterOne, ...chapterTwo];
   const [isSending, setIsSending] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
   const [submitMessage, setSubmitMessage] = useState('');
+  const [activeWorkIndex, setActiveWorkIndex] = useState<number | null>(null);
   const formStartedAtRef = useRef(Date.now());
   const privacyPolicyUrl = `${import.meta.env.BASE_URL}privacy-policy.html`;
+
+  const activeWork =
+    activeWorkIndex !== null ? allWorks[activeWorkIndex] : null;
+
+  const manifestoImageVariants: Variants = {
+    hidden: { opacity: 0, y: 32, scale: 0.94 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7 },
+    },
+  };
+
+  const closeOverlay = () => setActiveWorkIndex(null);
+
+  const showPreviousWork = () => {
+    setActiveWorkIndex((prev) => {
+      if (prev === null) {
+        return prev;
+      }
+
+      return (prev - 1 + allWorks.length) % allWorks.length;
+    });
+  };
+
+  const showNextWork = () => {
+    setActiveWorkIndex((prev) => {
+      if (prev === null) {
+        return prev;
+      }
+
+      return (prev + 1) % allWorks.length;
+    });
+  };
+
+  useEffect(() => {
+    if (activeWorkIndex === null) {
+      return;
+    }
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeOverlay();
+      }
+
+      if (event.key === 'ArrowLeft') {
+        showPreviousWork();
+      }
+
+      if (event.key === 'ArrowRight') {
+        showNextWork();
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeydown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [activeWorkIndex, allWorks.length]);
 
   const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -294,28 +378,35 @@ export default function App() {
             <motion.h2 variants={fadeUp}>Esposizioni e pubblicazioni</motion.h2>
             <motion.ul variants={staggerContainer}>
               <motion.li variants={fadeUp}>
-                2025 · Visioni Urbane, Firenze
+                2025 - Mostra collettiva "Freedom Art", ML Show Lab, Roma
               </motion.li>
               <motion.li variants={fadeUp}>
-                2026 · Mostra collettiva “Lampi”, La Spezia
+                2026 - Catalogo d'arte "Espressioni d'arte Tomo II" edizioni "La
+                valle del tempo" con testo critico di Elisabetta La Rosa
               </motion.li>
               <motion.li variants={fadeUp}>
-                2026 · Catalogo ON ART Gallery
+                2026 - Mostra collettiva catalogata "VisionArte", ONART Gallery,
+                Firenze
               </motion.li>
             </motion.ul>
           </motion.div>
         </motion.section>
 
         <WorkGrid
+          id='capitolo-1'
           title='CAPITOLO I'
           subtitle='L’opera astratta è introspezione pura'
           items={chapterOne}
+          startIndex={0}
+          onOpen={setActiveWorkIndex}
         />
 
         <WorkGrid
           title='CAPITOLO II'
           subtitle='Riflessi collettivi: figure, uomo e sociale'
           items={chapterTwo}
+          startIndex={chapterOne.length}
+          onOpen={setActiveWorkIndex}
         />
 
         <motion.section
@@ -330,11 +421,17 @@ export default function App() {
             l’inconscio, dove la tecnica si evolve in pari passo con la
             consapevolezza interiore.
           </motion.p>
-          <motion.img
-            src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80'
-            alt='Opera astratta rosso e verde'
-            variants={fadeIn}
-          />
+          <motion.div variants={manifestoImageVariants}>
+            <BorderGlow
+              borderRadius={0}
+              backgroundColor='#000'
+            >
+              <img
+                src={percorsoImg}
+                alt='Opera astratta rosso e verde'
+              />
+            </BorderGlow>
+          </motion.div>
         </motion.section>
 
         <motion.section
@@ -344,11 +441,16 @@ export default function App() {
           whileInView='visible'
           viewport={viewportOnce}
         >
-          <motion.img
-            src='https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=900&q=80'
-            alt='Scultura e bottiglie artistiche'
-            variants={fadeIn}
-          />
+          <BorderGlow
+            borderRadius={0}
+            backgroundColor='#000000'
+          >
+            <motion.img
+              src={spritoImg}
+              alt='Scultura e bottiglie artistiche'
+              variants={fadeIn}
+            />
+          </BorderGlow>
           <motion.div variants={staggerContainer}>
             <motion.span
               className='label'
@@ -388,13 +490,13 @@ export default function App() {
           >
             <motion.img
               className='commissioni__mainImage'
-              src='https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1400&q=80'
+              src={commissioniImg}
               alt='Dettaglio opera astratta per commissioni'
               variants={fadeIn}
             />
             <motion.img
               className='commissioni__badgeImage'
-              src='https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?auto=format&fit=crop&w=600&q=80'
+              src={pesceImg}
               alt='Dettaglio opera in sovrapposizione'
               variants={fadeUp}
             />
@@ -554,6 +656,72 @@ export default function App() {
           </BorderGlow>
         </motion.footer>
       </div>
+
+      {activeWork && (
+        <div
+          className='gallery-overlay'
+          role='dialog'
+          aria-modal='true'
+          aria-label={`Opera ${activeWork.title}`}
+          onClick={closeOverlay}
+        >
+          <div
+            className='gallery-overlay__panel'
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              className='gallery-overlay__close'
+              type='button'
+              onClick={closeOverlay}
+              aria-label='Chiudi anteprima'
+            >
+              ✕
+            </button>
+
+            <img
+              className='gallery-overlay__image'
+              src={activeWork.image}
+              alt={activeWork.title}
+            />
+
+            <div className='gallery-overlay__meta'>
+              <h3>{activeWork.title}</h3>
+              <p>{activeWork.size}</p>
+              <p>{activeWork.medium}</p>
+              <p>{activeWork.year}</p>
+            </div>
+
+            <div className='gallery-overlay__controls'>
+              <button
+                type='button'
+                onClick={showPreviousWork}
+              >
+                ← Precedente
+              </button>
+              <span>
+                {(activeWorkIndex ?? 0) + 1} / {allWorks.length}
+              </span>
+              <button
+                type='button'
+                onClick={showNextWork}
+              >
+                Successiva →
+              </button>
+            </div>
+
+            <div className='gallery-overlay__actions'>
+              <button
+                type='button'
+                className='gallery-overlay__visit'
+                aria-label='Pulsante demo visita la galleria'
+              >
+                Visita la galleria
+              </button>
+              <p>Comandi: Esc chiude · ←/→ naviga</p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

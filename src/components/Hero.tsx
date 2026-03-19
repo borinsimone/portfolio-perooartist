@@ -1,6 +1,7 @@
 import styles from './Hero.module.scss';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeUp, staggerContainer, viewportOnce } from '../animations';
+import herobg from '../assets/hero-bg.jpeg';
 
 export default function Hero() {
   return (
@@ -17,7 +18,7 @@ export default function Hero() {
       >
         <motion.img
           className={styles.photo}
-          src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80'
+          src={herobg}
           alt='Ritratto artista'
           variants={fadeIn}
         />
@@ -63,10 +64,17 @@ export default function Hero() {
         </motion.p>
         <motion.a
           className={styles.cta}
-          href='#dove-trovarmi'
+          href='#capitolo-1'
           variants={fadeUp}
         >
           Scopri le opere
+        </motion.a>
+        <motion.a
+          className={`${styles.cta} ${styles.cta_contact}`}
+          href='#dove-trovarmi'
+          variants={fadeUp}
+        >
+          Contattami
         </motion.a>
 
         <motion.div

@@ -1,6 +1,7 @@
 import styles from './ArtistBio.module.scss';
 import { motion } from 'framer-motion';
 import { fadeIn, fadeUp, staggerContainer, viewportOnce } from '../animations';
+import aboutImage from '../assets/about-image.jpeg';
 export default function ArtistBio() {
   return (
     <motion.section
@@ -52,7 +53,7 @@ export default function ArtistBio() {
           variants={fadeUp}
         >
           <motion.img
-            src='https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&w=1000&q=80'
+            src={aboutImage}
             alt='Dettaglio pittura astratta'
             variants={fadeIn}
           />

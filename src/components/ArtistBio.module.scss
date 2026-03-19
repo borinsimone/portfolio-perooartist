@@ -74,13 +74,13 @@
 
 .collageLarge {
   position: absolute;
-  top: 12%;
+
   left: 17%;
   width: 66%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1.5;
   overflow: hidden;
   background: $bg-card;
-  border: 2px solid rgba(255, 255, 255, 0.7);
+  // border: 2px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 22px 40px rgba(0, 0, 0, 0.4);
   z-index: 2;
 
